@@ -73,6 +73,14 @@ keys.addEventListener('click', e => {
             }
         }
 
+        if (equation.substring(equation.length - 2, equation.length) === '.' && clickedKey === '.') {
+            display.textContent = equation.substring(0, display.textContent.length - 1);
+        }
+
+        if (lastClicked === '=' && clickedKey === '=') {
+            display.textContent = equation.substring(0, display.textContent.length - 2);
+        }
+
         if (equation === '0' && isOperator(clickedKey)) { // if you start with operand
             display.textContent = '0 ' + clickedKey + ' ';
         }
@@ -144,7 +152,7 @@ keys.addEventListener('click', e => {
                     array = clearNoSpace(array);
                     i--;
                 }
-            } // 5 * 5 * =
+            }
             let checkCorrection = equation.slice(equation.lastIndexOf(' '), equation.length);
             if (isNumber(equation)) {
                 result.textContent = equation;
@@ -175,24 +183,29 @@ keys.addEventListener('click', e => {
 currency.addEventListener('click', e => {
     const clickedCurr = e.target.textContent;
     if (e.target.matches('button')) {
+
         if (isNumber(display.textContent)) {
             res = display.textContent;
         }
-        if (clickedCurr === 'Shekels into Dollars') {
-            display.textContent = 'Shekels converted to Dollars';
-            result.textContent = res / 3.26;
-        }
-        if (clickedCurr === 'Dollars into Shekels') {
-            display.textContent = 'Dollars converted to Shekels';
-            result.textContent = res * 3.26;
-        }
-        if (clickedCurr === 'Shekels into Euros') {
-            display.textContent = 'Shekels converted to Euros';
-            result.textContent = res / 3.97;
-        }
-        if (clickedCurr === 'Euros into Shekels') {
-            display.textContent = 'Euros converted to Shekels';
-            result.textContent = res * 3.97;
+        if (res >= 0) {
+            if (clickedCurr === 'Shekels into Dollars') {
+                display.textContent = 'Shekels converted to Dollars';
+                result.textContent = res / 3.26;
+            }
+            if (clickedCurr === 'Dollars into Shekels') {
+                display.textContent = 'Dollars converted to Shekels';
+                result.textContent = res * 3.26;
+            }
+            if (clickedCurr === 'Shekels into Euros') {
+                display.textContent = 'Shekels converted to Euros';
+                result.textContent = res / 3.97;
+            }
+            if (clickedCurr === 'Euros into Shekels') {
+                display.textContent = 'Euros converted to Shekels';
+                result.textContent = res * 3.97;
+            }
+        } else {
+            result.textContent = 'Syntax error';
         }
     }
 })
